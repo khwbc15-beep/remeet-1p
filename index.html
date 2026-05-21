@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>리밋의원 리프팅 이벤트</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;700;900&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ivory: #F6F2EC;
+    --sand: #EAE3D9;
+    --brown: #7A5C47;
+    --cocoa: #4B362B;
+    --taupe: #A68A79;
+    --white: #ffffff;
+    --dark: #1a1210;
+    --red-accent: #C0392B;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--ivory);
+    color: var(--dark);
+    font-family: 'Noto Sans KR', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    min-height: 100svh;
+    background: var(--cocoa);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 24px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 30% 20%, rgba(160,120,90,0.25) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 80%, rgba(90,60,40,0.4) 0%, transparent 50%);
+  }
+
+  .hero-badge {
+    position: relative;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    color: var(--sand);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    padding: 6px 16px;
+    border-radius: 100px;
+    margin-bottom: 28px;
+    font-family: 'Noto Sans KR', sans-serif;
+    font-weight: 300;
+  }
+
+  .hero-headline {
+    position: relative;
+    font-family: 'Noto Serif KR', serif;
+    font-weight: 900;
+    font-size: clamp(28px, 7vw, 52px);
+    color: var(--white);
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: 16px;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-headline em {
+    font-style: normal;
+    color: #E8C9A0;
+  }
+
+  .hero-sub {
+    position: relative;
+    font-size: 14px;
+    color: rgba(255,255,255,0.65);
+    text-align: center;
+    line-height: 1.8;
+    margin-bottom: 40px;
+    font-weight: 300;
+  }
+
+  .hero-before-after {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 32px 80px rgba(0,0,0,0.5);
+    margin-bottom: 32px;
+  }
+
+  .hero-before-after img {
+    width: 100%;
+    display: block;
+  }
+
+  .hero-disclaimer {
+    position: relative;
+    font-size: 10px;
+    color: rgba(255,255,255,0.35);
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* ── PRICE HOOK ── */
+  .price-hook {
+    background: var(--white);
+    padding: 40px 24px;
+    text-align: center;
+    border-bottom: 1px solid var(--sand);
+  }
+
+  .price-hook-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--taupe);
+    font-weight: 500;
+    margin-bottom: 12px;
+  }
+
+  .price-hook-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(20px, 5vw, 32px);
+    font-weight: 700;
+    color: var(--cocoa);
+    margin-bottom: 24px;
+    line-height: 1.4;
+  }
+
+  .price-cards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 400px;
+    margin: 0 auto 24px;
+  }
+
+  .price-card {
+    background: var(--ivory);
+    border: 1.5px solid var(--sand);
+    border-radius: 12px;
+    padding: 20px;
+    text-align: left;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .price-card.featured {
+    background: var(--cocoa);
+    border-color: var(--cocoa);
+    color: white;
+  }
+
+  .price-card.featured::before {
+    content: '🔥 가장 인기';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    background: rgba(255,255,255,0.15);
+    padding: 3px 8px;
+    border-radius: 100px;
+    color: rgba(255,255,255,0.8);
+  }
+
+  .price-card-name {
+    font-size: 13px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    opacity: 0.7;
+  }
+
+  .price-card.featured .price-card-name { opacity: 0.75; color: white; }
+
+  .price-main {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+    margin-bottom: 4px;
+  }
+
+  .price-original {
+    font-size: 13px;
+    text-decoration: line-through;
+    color: var(--taupe);
+  }
+
+  .price-card.featured .price-original { color: rgba(255,255,255,0.4); }
+
+  .price-now {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(24px, 6vw, 36px);
+    font-weight: 900;
+    color: var(--cocoa);
+    letter-spacing: -0.02em;
+  }
+
+  .price-card.featured .price-now { color: #E8C9A0; }
+
+  .price-unit {
+    font-size: 12px;
+    color: var(--taupe);
+    margin-top: 2px;
+  }
+
+  .price-card.featured .price-unit { color: rgba(255,255,255,0.5); }
+
+  .price-condition {
+    font-size: 10px;
+    color: var(--taupe);
+    margin-top: 6px;
+  }
+
+  .price-card.featured .price-condition { color: rgba(255,255,255,0.45); }
+
+  .scarcity-bar {
+    background: #FEF3C7;
+    border: 1px solid #F59E0B;
+    border-radius: 8px;
+    padding: 10px 16px;
+    font-size: 12px;
+    color: #92400E;
+    max-width: 400px;
+    margin: 0 auto;
+    font-weight: 500;
+  }
+
+  /* ── PROBLEM ── */
+  .section {
+    padding: 56px 24px;
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: var(--taupe);
+    font-weight: 500;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .section-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(20px, 5vw, 30px);
+    font-weight: 700;
+    line-height: 1.45;
+    color: var(--cocoa);
+    margin-bottom: 24px;
+  }
+
+  .section-title em {
+    font-style: normal;
+    border-bottom: 2px solid var(--brown);
+  }
+
+  .problem-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .problem-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 16px;
+    background: var(--white);
+    border-radius: 10px;
+    border-left: 3px solid var(--brown);
+    font-size: 14px;
+    line-height: 1.6;
+    color: #3a2a22;
+  }
+
+  .problem-icon {
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 1px;
+  }
+
+  /* ── DIFF ── */
+  .diff-section {
+    background: var(--cocoa);
+    padding: 56px 24px;
+    color: white;
+  }
+
+  .diff-inner {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .diff-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    color: rgba(255,255,255,0.5);
+    font-weight: 500;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .diff-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(20px, 5vw, 30px);
+    font-weight: 700;
+    line-height: 1.45;
+    margin-bottom: 32px;
+    color: #E8C9A0;
+  }
+
+  .diff-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .diff-item {
+    display: flex;
+    gap: 16px;
+    align-items: flex-start;
+  }
+
+  .diff-num {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 13px;
+    font-weight: 700;
+    color: #E8C9A0;
+    flex-shrink: 0;
+  }
+
+  .diff-text strong {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 4px;
+    color: white;
+  }
+
+  .diff-text span {
+    font-size: 13px;
+    color: rgba(255,255,255,0.6);
+    line-height: 1.6;
+  }
+
+  /* ── GALLERY ── */
+  .gallery-section {
+    padding: 56px 24px;
+    background: var(--sand);
+  }
+
+  .gallery-inner {
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  .gallery-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .gallery-item {
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  }
+
+  .gallery-item img {
+    width: 100%;
+    display: block;
+  }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 56px 24px 80px;
+    background: var(--white);
+    text-align: center;
+  }
+
+  .cta-inner {
+    max-width: 400px;
+    margin: 0 auto;
+  }
+
+  .cta-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: clamp(20px, 5vw, 28px);
+    font-weight: 700;
+    color: var(--cocoa);
+    margin-bottom: 8px;
+    line-height: 1.4;
+  }
+
+  .cta-sub {
+    font-size: 13px;
+    color: var(--taupe);
+    margin-bottom: 28px;
+    line-height: 1.7;
+  }
+
+  .cta-btn {
+    display: block;
+    width: 100%;
+    background: #FEE500;
+    color: #3C1E1E;
+    text-decoration: none;
+    padding: 18px 24px;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 20px rgba(254,229,0,0.4);
+  }
+
+  .cta-btn:active { transform: scale(0.98); }
+
+  .cta-btn-icon {
+    display: inline-block;
+    margin-right: 8px;
+  }
+
+  .cta-notice {
+    font-size: 11px;
+    color: var(--taupe);
+    line-height: 1.6;
+  }
+
+  .urgency-chip {
+    display: inline-block;
+    background: #FEF2F2;
+    color: var(--red-accent);
+    font-size: 12px;
+    font-weight: 700;
+    padding: 6px 14px;
+    border-radius: 100px;
+    margin-bottom: 20px;
+    border: 1px solid #FECACA;
+  }
+
+  /* ── STICKY CTA ── */
+  .sticky-cta {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 20px calc(12px + env(safe-area-inset-bottom));
+    background: rgba(246,242,236,0.95);
+    backdrop-filter: blur(12px);
+    border-top: 1px solid var(--sand);
+    z-index: 100;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+
+  .sticky-cta.visible { transform: translateY(0); }
+
+  .sticky-cta a {
+    display: block;
+    background: #FEE500;
+    color: #3C1E1E;
+    text-decoration: none;
+    padding: 15px;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    text-align: center;
+    box-shadow: 0 4px 16px rgba(254,229,0,0.35);
+  }
+
+  /* ── LOGO ── */
+  .logo-bar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding: 14px 20px;
+    background: rgba(75,54,43,0.92);
+    backdrop-filter: blur(8px);
+    z-index: 99;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .logo-text {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 15px;
+    font-weight: 700;
+    color: #E8C9A0;
+    letter-spacing: 0.05em;
+  }
+
+  .logo-sub {
+    font-size: 10px;
+    color: rgba(255,255,255,0.45);
+    letter-spacing: 0.1em;
+  }
+
+  .logo-bar-cta {
+    background: #FEE500;
+    color: #3C1E1E;
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 7px 14px;
+    border-radius: 100px;
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--sand);
+    max-width: 480px;
+    margin: 0 auto;
+  }
+
+  /* animations */
+  .fade-up {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+  .fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+</style>
+</head>
+<body>
+
+<!-- 상단 로고바 -->
+<div class="logo-bar">
+  <div>
+    <div class="logo-text">Re:Meet⁺</div>
+    <div class="logo-sub">의정부 리밋의원</div>
+  </div>
+  <a href="https://pf.kakao.com/_JGxgKn" class="logo-bar-cta">📱 이벤트 문의</a>
+</div>
+
+<!-- HERO -->
+<section class="hero" style="padding-top:80px;">
+  <div class="hero-badge">경기 북부 리프팅 1,000케이스+</div>
+  <h1 class="hero-headline">
+    리프팅 받았는데<br>
+    <em>왜 그대로예요?</em>
+  </h1>
+  <p class="hero-sub">
+    장비가 문제가 아닙니다.<br>
+    어디를, 얼마나, 어떻게 쏘느냐가 다릅니다.
+  </p>
+  <div class="hero-before-after">
+    <img src="ulthera2.png" alt="리프팅 전후 비교" loading="eager">
+  </div>
+  <p class="hero-disclaimer">
+    실제 시술 고객님의 보정 없는 동일 조건 촬영 사진입니다.<br>
+    모든 피부시술은 개인 피부 상태에 따라 결과가 다를 수 있습니다.
+  </p>
+</section>
+
+<!-- PRICE HOOK -->
+<div class="price-hook fade-up">
+  <div class="price-hook-label">이번 달 한정 이벤트</div>
+  <h2 class="price-hook-title">강남까지 안 가도 됩니다</h2>
+  <div class="price-cards">
+    <div class="price-card featured">
+      <div class="price-card-name">온다 리프팅 4만줄</div>
+      <div class="price-main">
+        <span class="price-original">44만원</span>
+        <span class="price-now">22만원</span>
+      </div>
+      <div class="price-unit">1만줄당 5.5만원</div>
+      <div class="price-condition">* 조건 없음, 당일 예약 가능</div>
+    </div>
+    <div class="price-card">
+      <div class="price-card-name">울쎄라 100샷</div>
+      <div class="price-main">
+        <span class="price-original">40만원</span>
+        <span class="price-now">28만원</span>
+      </div>
+      <div class="price-condition">* 400샷 이상 시술 시 적용</div>
+    </div>
+    <div class="price-card">
+      <div class="price-card-name">써마지 100샷</div>
+      <div class="price-main">
+        <span class="price-original">50만원</span>
+        <span class="price-now">40만원</span>
+      </div>
+      <div class="price-condition">* 300샷 시술 시 적용</div>
+    </div>
+  </div>
+  <div class="scarcity-bar">
+    ⏰ 하루 선착순 5명 예약 — 꼼꼼한 시술을 위해 제한합니다
+  </div>
+</div>
+
+<!-- PROBLEM -->
+<section class="section fade-up">
+  <div class="section-label">Why</div>
+  <h2 class="section-title">
+    리프팅, 돈만 쓰고<br>
+    <em>효과를 못 느끼는 이유</em>
+  </h2>
+  <ul class="problem-list">
+    <li class="problem-item">
+      <span class="problem-icon">⚡</span>
+      <div>
+        <strong style="display:block; font-weight:700; margin-bottom:3px;">일률적 매뉴얼 시술</strong>
+        얼굴 구조와 중력 방향을 보지 않고, 정해진 부위에 정해진 만큼만 쏩니다. 내 얼굴이 아닌 평균 얼굴에 맞춘 시술입니다.
+      </div>
+    </li>
+    <li class="problem-item">
+      <span class="problem-icon">💰</span>
+      <div>
+        <strong style="display:block; font-weight:700; margin-bottom:3px;">회전율 중심 진료</strong>
+        상담에서 들은 것과 실제 시술이 다릅니다. 빠른 회전이 목표인 곳에서 정밀한 설계는 불가능합니다.
+      </div>
+    </li>
+    <li class="problem-item">
+      <span class="problem-icon">🔍</span>
+      <div>
+        <strong style="display:block; font-weight:700; margin-bottom:3px;">사후 관리 없음</strong>
+        시술실에서 나오는 순간 끝입니다. 경과를 체크하고 보완하는 구조가 없습니다.
+      </div>
+    </li>
+  </ul>
+</section>
+
+<div class="divider"></div>
+
+<!-- DIFF -->
+<section class="diff-section">
+  <div class="diff-inner fade-up">
+    <div class="diff-label">리밋의원 차별점</div>
+    <h2 class="diff-title">리밋이 다른 이유,<br>딱 3가지입니다</h2>
+    <div class="diff-items">
+      <div class="diff-item">
+        <div class="diff-num">01</div>
+        <div class="diff-text">
+          <strong>베드사이드 원장 체크</strong>
+          <span>시술 전 원장이 직접 피부 상태와 볼륨 분포를 확인합니다. 상담과 시술이 일치하는 유일한 구조입니다.</span>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">02</div>
+        <div class="diff-text">
+          <strong>경기 북부 최대 규모 · 전체 1인실</strong>
+          <span>강남 수준의 시설과 장비. 의정부에서 강남까지 2시간 쓸 이유가 없습니다.</span>
+        </div>
+      </div>
+      <div class="diff-item">
+        <div class="diff-num">03</div>
+        <div class="diff-text">
+          <strong>정품 · 정량 · 과잉 진단 없음</strong>
+          <span>필요한 시술만 제안합니다. 1,000케이스가 넘는 경험이 냉정한 판단을 만듭니다.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+<section class="gallery-section">
+  <div class="gallery-inner fade-up">
+    <div class="section-label">Real Results</div>
+    <h2 class="section-title" style="color:var(--cocoa);">보정 없는<br>실제 전후 사진</h2>
+    <div class="gallery-grid">
+      <div class="gallery-item">
+        <img src="ulthera1.png" alt="울쎄라 전후1" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="ulthera2.png" alt="울쎄라 전후2" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="lifting1.jpg" alt="리프팅 전후1" loading="lazy">
+      </div>
+      <div class="gallery-item">
+        <img src="lifting2.jpg" alt="리프팅 전후2" loading="lazy">
+      </div>
+    </div>
+    <p style="font-size:10px; color:var(--taupe); margin-top:12px; text-align:center; line-height:1.6;">
+      실제 시술 고객님의 보정 없는 동일 조건 촬영 사진입니다.<br>
+      모든 피부시술은 개인 피부 상태에 따라 결과가 다를 수 있습니다.
+    </p>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section fade-up">
+  <div class="cta-inner">
+    <div class="urgency-chip">⏰ 이번 달 한정 · 선착순 마감</div>
+    <h2 class="cta-title">지금 이벤트 가격<br>확인하세요</h2>
+    <p class="cta-sub">
+      카카오톡으로 문의하시면<br>
+      잔여 예약 현황과 정확한 가격을 바로 안내드립니다.
+    </p>
+    <a href="https://pf.kakao.com/_JGxgKn" class="cta-btn">
+      <span class="cta-btn-icon">💬</span>카카오톡으로 이벤트 가격 확인
+    </a>
+    <p class="cta-notice">
+      리밋의원 | 의정부시 의정부동<br>
+      일요일·야간 진료 운영 중
+    </p>
+  </div>
+</section>
+
+<!-- STICKY CTA -->
+<div class="sticky-cta" id="stickyCta">
+  <a href="https://pf.kakao.com/_JGxgKn">
+    💬 이벤트 가격 지금 확인하기
+  </a>
+</div>
+
+<script>
+  // Sticky CTA 노출
+  const stickyCta = document.getElementById('stickyCta');
+  window.addEventListener('scroll', () => {
+    if (window.scrollY > 300) {
+      stickyCta.classList.add('visible');
+    } else {
+      stickyCta.classList.remove('visible');
+    }
+  });
+
+  // Fade up 애니메이션
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+</script>
+
+</body>
+</html>
