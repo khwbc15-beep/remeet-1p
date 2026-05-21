@@ -561,6 +561,37 @@
     margin-top: 6px;
   }
   .price-card.featured .price-condition { color: rgba(255,255,255,0.42); }
+
+  /* 정가 취소선 → 할인가 등장 애니메이션 */
+  .price-original-anim {
+    position: relative;
+    text-decoration: none;
+    display: inline-block;
+    color: var(--taupe);
+    font-size: 13px;
+  }
+  .price-original-anim::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    height: 1.5px;
+    background: var(--taupe);
+    width: 0;
+    transform: translateY(-50%);
+    transition: width 0.45s ease;
+  }
+  .price-original-anim.struck::after { width: 100%; }
+  .price-now-anim {
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.35s ease, transform 0.35s ease;
+  }
+  .price-now-anim.revealed {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
   .scarcity-bar {
     background: #FEF3C7;
     border: 1px solid #F59E0B;
@@ -890,19 +921,19 @@
         </div>
         <div class="price-condition">* 단 4만줄 진행 시 적용</div>
       </div>
-      <div class="price-card fade-up stagger-2">
+      <div class="price-card fade-up stagger-2 price-anim-card">
         <div class="price-card-name">울쎄라 100샷</div>
         <div class="price-main">
-          <span class="price-original">40만원</span>
-          <span class="price-now">28만원</span>
+          <span class="price-original-anim">40만원</span>
+          <span class="price-now price-now-anim">28만원</span>
         </div>
         <div class="price-condition">* 400샷 이상 시술 시 적용</div>
       </div>
-      <div class="price-card fade-up stagger-3">
+      <div class="price-card fade-up stagger-3 price-anim-card">
         <div class="price-card-name">써마지 100샷</div>
         <div class="price-main">
-          <span class="price-original">50만원</span>
-          <span class="price-now">40만원</span>
+          <span class="price-original-anim">50만원</span>
+          <span class="price-now price-now-anim">40만원</span>
         </div>
         <div class="price-condition">* 300샷 시술 시 적용</div>
       </div>
@@ -1020,6 +1051,27 @@
     });
   }, { threshold: 0.5 });
   priceObserver.observe(featuredCard);
+
+  /* ── 울쎄라·써마지 정가 취소선 → 할인가 애니메이션 ── */
+  document.querySelectorAll('.price-anim-card').forEach((card, i) => {
+    const orig = card.querySelector('.price-original-anim');
+    const disc = card.querySelector('.price-now-anim');
+    let done = false;
+    const cardStaggerDelay = (i + 2) * 100; // stagger-2, stagger-3 맞춤
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting && !done) {
+          done = true;
+          setTimeout(() => {
+            orig.classList.add('struck');
+            setTimeout(() => disc.classList.add('revealed'), 500);
+          }, cardStaggerDelay + 350);
+          obs.unobserve(card);
+        }
+      });
+    }, { threshold: 0.6 });
+    obs.observe(card);
+  });
 
   /* ── Lightbox ── */
   function openLightbox(src) {
